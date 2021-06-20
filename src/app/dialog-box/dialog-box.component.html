@@ -1,0 +1,29 @@
+<!-- dialog-box.component.html -->
+<h1 mat-dialog-title><strong>{{action}}</strong> :: Product</h1>
+<div mat-dialog-content>
+
+  
+  <mat-form-field *ngIf="action != 'Delete' else elseTemplate">
+    <input [readonly]="true" placeholder=" Product Id" matInput [(ngModel)]="local_data.productId">
+  </mat-form-field>
+  <mat-form-field *ngIf="action != 'Delete';">
+    <input required #productCategory="ngModel" placeholder=" Product Category" matInput [(ngModel)]="local_data.productCategory">
+  </mat-form-field>
+  <mat-form-field *ngIf="action != 'Delete';">
+    <input required placeholder=" Product Name" matInput [(ngModel)]="local_data.productName">
+  </mat-form-field>
+  <mat-form-field *ngIf="action != 'Delete';">
+    <input required placeholder=" Product Description" matInput [(ngModel)]="local_data.productDescriction">
+  </mat-form-field>
+  <mat-form-field *ngIf="action != 'Delete';">
+    <input type="num" placeholder=" Units" matInput [(ngModel)]="local_data.units">
+  </mat-form-field>
+
+  <ng-template #elseTemplate>
+    Sure to delete <b>{{local_data.productId}}</b>?
+  </ng-template>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="doAction()">{{action}}</button>
+  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div>
