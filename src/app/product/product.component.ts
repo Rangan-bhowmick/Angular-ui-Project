@@ -9,7 +9,7 @@ import { ProductService } from '../product.service';
 import { Iproducts } from '../products';
 
 
-
+const CACHE_KEY = "httpRepoCache";
 
 
 @Component({
@@ -30,19 +30,24 @@ export class ProductComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private _productService : ProductService, public dialog: MatDialog) { }
+  constructor(private _productService : ProductService, public dialog: MatDialog) { 
+
+    this.dataSource.data = JSON.parse(localStorage[CACHE_KEY]);
+
+  }
 
   ngOnInit() {
     this.refresh();
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
   }
 
   refresh(){
     this._productService.getProducts()
     .subscribe((data) => {
-      this.dataSource.data = data;
-      console.log(this.dataSource);
+      localStorage[CACHE_KEY] = JSON.stringify(data);
+      this.dataSource.data = JSON.parse(localStorage[CACHE_KEY] || []);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      
     }, error => {
      this.errorMessage = error;
      alert(this.errorMessage);
@@ -70,7 +75,7 @@ export class ProductComponent implements OnInit {
   addRowData(row_obj){
     this._productService.addProducts(row_obj)
     .subscribe((data) => {
-      console.log("Data added"+data);
+      console.log("New data Added");
       this.refresh();
     }, error => {
       this.errorMessage = error;
@@ -84,7 +89,7 @@ export class ProductComponent implements OnInit {
   updateRowData(row_obj){
     this._productService.updateProducts(row_obj)
     .subscribe((data) => {
-      console.log("Data updated"+data);
+      console.log("Updated sucessfully");
       this.refresh();
     }, error => {
       this.errorMessage = error;
@@ -95,7 +100,7 @@ export class ProductComponent implements OnInit {
   deleteRowData(row_obj){
     this._productService.deleteProducts(row_obj.productId)
     .subscribe((data) => {
-      console.log(row_obj.productId+": "+data);
+      console.log("Deleted succesfully");
       this.refresh();
     }, error => {
       this.errorMessage = error;

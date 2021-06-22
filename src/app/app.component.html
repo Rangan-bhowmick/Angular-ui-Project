@@ -1,3 +1,4 @@
 
 <!--<app-product></app-product>-->
+<div class="logoutButton"><button *ngIf="token" (click)= "logout()">LogOut</button></div>
 <router-outlet *ngIf="token"></router-outlet>

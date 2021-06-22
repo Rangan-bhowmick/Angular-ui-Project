@@ -17,9 +17,9 @@ export class ProductService {
   getProducts() : Observable<Iproducts[]>{
     return this.http.get<Iproducts[]>(this._url).pipe(
       catchError((err) => {
-        console.log('error caught in service')
-        console.error(err.message);
-        return throwError(err.message || "Server Error");
+        console.log('error caught in getProduct service')
+        console.error(err.error.error);
+        return throwError(err.error.error || "Server Error");
       })
     );
   }
@@ -31,9 +31,9 @@ export class ProductService {
       })
     }).pipe(
       catchError((err) => {
-        console.log('error caught in service')
-        console.error(err.message);
-        return throwError(err.message || "Server Error");
+        console.log('error caught in addProducts service')
+        console.error(err.error.error);
+        return throwError(err.error.error || "Server Error");
       })
     )
   }
@@ -45,9 +45,9 @@ export class ProductService {
       })
     }).pipe(
       catchError((err) => {
-        console.log('error caught in service')
-        console.error(err.message);
-        return throwError(err.message || "Server Error");
+        console.log('error caught in updateService service')
+        console.error(err.error.error);
+        return throwError(err.error.error || "Server Error");
       })
     );
   }
@@ -55,9 +55,9 @@ export class ProductService {
   deleteProducts(id : string) : Observable<any>{
     return this.http.delete<any>(this._url+"/"+id).pipe(
       catchError((err) => {
-        console.log('error caught in service')
-        console.error(err.message);
-        return throwError(err.message || "Server Error");
+        console.log('error caught in deleteProduct service')
+        console.error(err.error.error);
+        return throwError(err.error.error || "Server Error");
       })
     );
   }
